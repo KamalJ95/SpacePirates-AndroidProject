@@ -1,0 +1,43 @@
+package kamaljahah.rg014522.finalproject;
+
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+
+/**
+ * Created by Kamal on 27/03/2018.
+ */
+
+public class Effects extends GameObject {
+
+    public int radius;
+
+    public Effects(int x, int y)
+    {
+        radius = 7;
+        super.x = x;
+        super.y = y;
+    }
+
+    public void update(){
+        x-=10;
+    }
+
+
+    //Draws blue circle clouds coming out of spaceship
+    public void draw(Canvas canvas){
+        Paint paint = new Paint();
+        Paint paint2 = new Paint();
+        paint.setColor(Color.BLUE);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.FILL);
+
+        //The circles to draw that will be cycles through
+
+        canvas.drawCircle(x-radius,y-radius,radius,paint);
+        canvas.drawCircle(x-radius+2,y-radius-2,radius,paint);
+        canvas.drawCircle(x-radius+4,y-radius+1,radius,paint);
+    }
+
+}
