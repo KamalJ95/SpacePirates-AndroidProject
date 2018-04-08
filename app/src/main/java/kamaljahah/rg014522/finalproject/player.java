@@ -16,6 +16,13 @@ public class player extends GameObject{
     private long startTime;
 
 
+    /**
+     * Player constructor for the player
+     * @param resolution
+     * @param w
+     * @param h
+     * @param frames
+     */
     public player(Bitmap resolution, int w, int h, int frames){
         x = 100;
         y = GameView.height/2;
@@ -37,12 +44,18 @@ public class player extends GameObject{
         startTime = System.nanoTime();
     }
 
-    //When press down, ship will fly up
-    public void setUp(boolean b){
+    /**
+     * Set up function for when the screen is pressed down the player will fly up
+     * @param b
+     */
+    public void setUp(boolean b)
+    {
         goUp = b;
     }
 
-    //Updates the score, every second the score will increase by one depending on how far across the player gets.
+    /**
+     * Updates the score every second the score will increase by one depending on how far across the player gets.
+     */
     public void update(){
         long timeGone = (System.nanoTime()- startTime) / 1000000;
         if (timeGone > 100){
@@ -70,34 +83,56 @@ public class player extends GameObject{
         y +=directionY*2;
     }
 
-    //Getters for score
+    /**
+     * Getter for player score
+     * @return
+     */
     public int getScore(){
         return this.score;
     }
 
-    //getter for animation running
-    public boolean getRunning(){
+    /**
+     * Getter for player running
+     * @return
+     */
+    public boolean getRunning()
+    {
         return this.running;
     }
 
-    //setter for setting the running animation
+    /**
+     * Setter for setting the player to running as true or false so can deal with deaths etc
+     * @param run
+     */
     public void setRunning(boolean run){
+
         this.running = run;
     }
 
 
-    //reset the acceleration to 0.
+    /**
+     * Reset the acceleration (direction y that the player is going).
+     */
     public void resetAcceleration(){
+
         this.directionY = 0;
     }
 
-    //reset the score to 0.
-    public void resetScore(){
+    /**
+     * Rests the score to zero
+     */
+    public void resetScore()
+    {
         this.score = 0;
     }
 
+    /**
+     * Function for drawing the player onto the canvas.
+     * @param canvas
+     */
     public void draw(Canvas canvas)
     {
+
         canvas.drawBitmap(animation.getImage(),x,y,null);
     }
 

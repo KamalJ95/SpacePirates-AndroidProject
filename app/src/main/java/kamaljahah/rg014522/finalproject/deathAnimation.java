@@ -7,12 +7,22 @@ import android.graphics.Canvas;
  * Created by Kamal on 28/03/2018.
  */
 
+
 public class deathAnimation {
     private int x,y,width,height;
     private Animation animation = new Animation();
     private Bitmap sprite;
 
 
+    /**
+     * Animation called on collision with another object. Death Animation constructor
+     * @param resource
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     * @param numFrames
+     */
     public deathAnimation(Bitmap resource, int x, int y, int w, int h, int numFrames) {
         this.x = x;
         this.y = y;
@@ -22,6 +32,7 @@ public class deathAnimation {
         Bitmap[] image = new Bitmap[numFrames];
 
         sprite = resource;
+
 
 
         for (int i = 0; i < image.length; i++) {
@@ -35,6 +46,11 @@ public class deathAnimation {
 
     }
 
+
+    /**
+     * Draw function for death animation - if the animation has not been played yet then the animation will play.
+     * @param canvas
+     */
     public void draw(Canvas canvas){
 
         if (!animation.initialPlayed()){
@@ -43,6 +59,9 @@ public class deathAnimation {
 
     }
 
+    /**
+     * If the animation has not been played will update
+     */
     public void update(){
         if(!animation.initialPlayed())
         {
@@ -51,6 +70,10 @@ public class deathAnimation {
     }
 
 
+    /**
+     * Getter for height
+     * @return
+     */
     public int getHeight()
     {
         return height;

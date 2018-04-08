@@ -12,6 +12,11 @@ public class Effects extends GameObject {
 
     public int radius;
 
+    /**
+     * Constructor for effects that will come off of the back of the ship
+     * @param x
+     * @param y
+     */
     public Effects(int x, int y)
     {
         radius = 7;
@@ -19,12 +24,19 @@ public class Effects extends GameObject {
         super.y = y;
     }
 
-    public void update(){
+    /**
+     * Will draw the cirlces at a position of x - 10 to the player.
+     */
+    public void update()
+    {
         x-=10;
     }
 
 
-    //Draws blue circle clouds coming out of spaceship
+    /**
+     * Will draw white cicles coming out behind the back of the pirate ship
+     * @param canvas
+     */
     public void draw(Canvas canvas){
         Paint paint = new Paint();
         Paint paint2 = new Paint();

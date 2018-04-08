@@ -10,6 +10,13 @@ import android.graphics.Canvas;
 public class TopBorder extends GameObject {
     private Bitmap image;
 
+    /**
+     * Constructor for top border
+     * @param resource
+     * @param x
+     * @param y
+     * @param height
+     */
     public TopBorder(Bitmap resource, int x, int y, int height) {
         this.height = height;
         width = 25;
@@ -23,10 +30,18 @@ public class TopBorder extends GameObject {
     }
 
 
+    /**
+     * Updates the border to the speed of the game running
+     */
     public void update() {
+
         x += dx;
     }
 
+    /**
+     * Draw function for top border
+     * @param canvas
+     */
     public void draw(Canvas canvas) {
         try {
             canvas.drawBitmap(image, x, y, null);

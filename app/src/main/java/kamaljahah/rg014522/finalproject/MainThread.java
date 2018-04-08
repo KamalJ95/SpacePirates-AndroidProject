@@ -7,7 +7,11 @@ import android.view.SurfaceHolder;
  * Created by Kamal on 26/03/2018.
  */
 
+/**
+ * Main thread where the gain will run from
+ */
 public class MainThread extends Thread {
+
     //Limit unnecessary calls to game loop, also for optimsation
     public static final int MAX_FPS = 30;
 
@@ -19,12 +23,20 @@ public class MainThread extends Thread {
     public static Canvas canvas;
 
 
+    /**
+     * Main thread constructor
+     * @param holder
+     * @param panel
+     */
     public MainThread(SurfaceHolder holder, GameView panel) {
         super();
         this.holder = holder;
         this.panel = panel;
     }
 
+    /**
+     * Run function that is called everytime the game starts
+     */
     @Override
     public void run(){
         long startTime;
@@ -82,7 +94,12 @@ public class MainThread extends Thread {
         }
     }
 
+    /**
+     * Setter for running
+     * @param running
+     */
     public void setRunning(boolean running){
+
         this.running = running;
     }
 

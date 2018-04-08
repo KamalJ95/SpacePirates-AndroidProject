@@ -56,11 +56,11 @@ public class highscore extends AppCompatActivity {
 
             highscore2 = preferences.getInt("record2", -1);
             tv2 = (TextView) findViewById(R.id.tv2);
-            tv2.setText("2nd Place : " + highscore2);
+            tv2.setText("Second: " + highscore2);
 
             highscore3 = preferences.getInt("record3", -1);
             tv3 = (TextView) findViewById(R.id.tv3);
-            tv3.setText("3rd Place : " + highscore3);
+            tv3.setText("Third : " + highscore3);
 
         }
 

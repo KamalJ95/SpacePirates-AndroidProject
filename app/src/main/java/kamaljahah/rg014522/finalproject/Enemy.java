@@ -17,6 +17,16 @@ public class Enemy extends GameObject {
     private Animation animation = new Animation();
     private Bitmap sprite;
 
+    /**
+     * Constructor for first enemy, will be a basic ship that flys slow towards player in direction -x
+     * @param resource
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param s
+     * @param numFrames
+     */
     public Enemy(Bitmap resource, int x, int y, int width, int height, int s, int numFrames){
 
         super.x = x;
@@ -50,7 +60,9 @@ public class Enemy extends GameObject {
 
     }
 
-
+    /**
+     * Update function for enemy
+     */
     public void update(){
         x-=speed;
         animation.update();
@@ -58,7 +70,10 @@ public class Enemy extends GameObject {
     }
 
 
-
+    /**
+     * Draw function for enemy
+     * @param canvas
+     */
     public void draw(Canvas canvas){
 
 
@@ -70,6 +85,10 @@ public class Enemy extends GameObject {
 
     }
 
+    /**
+     * Gets the width for enemy and is an offset for collision incase the tail collides
+     * @return
+     */
     @Override
     public int getWidth(){
         //Offset for collision incase tail collides

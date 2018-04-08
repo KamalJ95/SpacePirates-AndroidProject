@@ -18,7 +18,11 @@ import android.widget.RelativeLayout;
 public class MainActivity extends AppCompatActivity {
 
 
-
+    /**
+     * On create automatically created when creating an activity class
+     * On create will run the methods inside it that I desire
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(getWindow().FEATURE_NO_TITLE);
 
+        //Media player to play sea shanty 2
         MediaPlayer mediaplayer = MediaPlayer.create(this, R.raw.seashanty);
         mediaplayer.start();
 
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        //Button to start the game
         Button gameStart = (Button) findViewById(R.id.gamestart);
 
         gameStart.setOnClickListener(new View.OnClickListener() {
@@ -46,19 +52,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-     Button highscore = (Button) findViewById(R.id.highscore);
-     highscore.setOnClickListener(new View.OnClickListener() {
+
+        //Button to traverse to the highscores
+         Button highscore = (Button) findViewById(R.id.highscore);
+        highscore.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
             startActivity(new Intent(MainActivity.this, highscore.class));
-         }
+              }
 
      }    );
 
 
-
-
-
+        //Button to exit the game
          Button gameExit = (Button) findViewById(R.id.exit);
 
         gameExit.setOnClickListener(new View.OnClickListener(){
@@ -76,11 +82,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Automatically created function
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Automatically created function
+     * Menu inflater to inflate the menu so is visible
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

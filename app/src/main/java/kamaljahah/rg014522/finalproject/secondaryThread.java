@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
 /**
- * Created by Kamal on 26/03/2018.
+ * Created by Kamal on 07/04/2018.
  */
 
 public class secondaryThread extends Thread {

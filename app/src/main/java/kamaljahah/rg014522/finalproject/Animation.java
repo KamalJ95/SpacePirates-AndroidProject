@@ -16,6 +16,11 @@ public class Animation {
     private long delay;
     private boolean initial;
 
+
+    /**
+     * Function for setting the frames and resetting the time for each frame
+     * @param frames
+     */
     public void setFrames(Bitmap[] frames){
         this.frames = frames;
         currentFrame = 0;
@@ -23,18 +28,17 @@ public class Animation {
     }
 
 
-    //If want to set a delay
+    /**
+     * Function for setting delays for objects
+     * @param d
+     */
     public void setDelay(long d){
         delay = d;
     }
 
-    //If manually want to set the frame
-    public void setFrames(int frameSet){
-        currentFrame = frameSet;
-    }
-
-
-    //Will set the frames and which image to return in the array.
+    /**
+     * Sets the frames and which image to return
+     */
     public void update(){
 
         long timePassed = (System.nanoTime()-startTime)/1000000;
@@ -51,14 +55,19 @@ public class Animation {
         }
     }
 
+    /**
+     * Returns the frames
+     * @return
+     */
     public Bitmap getImage(){
         return frames[currentFrame];
     }
 
-    public int getFrame(){
-        return currentFrame;
-    }
 
+    /**
+     * Boolean to check if game has started once
+     * @return
+     */
     public boolean initialPlayed(){
        return initial;
     }

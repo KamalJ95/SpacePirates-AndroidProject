@@ -58,20 +58,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean down = true;
     private boolean gamenew;
     private Random rng = new Random();
-    private int bestScore;
-    private SoundPool sound;
-    private int mySound;
     private int level = 1;
     private long tertiaryTimer;
     private ArrayList<thirdShip> thirdEnemy;
-    public static final String KEY_SCORE = "score";
-    public Context context;
     public static boolean retry = true;
 
 
-
-
-
+    /**
+     * GameView constructor
+     * @param context
+     */
     public GameView(Context context){
         super(context);
 
@@ -82,24 +78,28 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
-    //Seconday thread for everything that is an arraylist
+    /**
+     * Everything was initially running through the main thread, but
+     * creating a secondary thread that takes everything that has an arraylist in
+     * makes the game run at smoother fps.
+     */
     public void secondaryThreadCalls(){
         secondThread = new secondaryThread(getHolder(), this);
-        effect = new ArrayList<Effects>();
-        enemy = new ArrayList<Enemy>();
-        newEnemy = new ArrayList<secondaryEnemy>();
-        thirdEnemy = new ArrayList<thirdShip>();
+        effect = new ArrayList<>();
+        enemy = new ArrayList<>();
+        newEnemy = new ArrayList<>();
+        thirdEnemy = new ArrayList<>();
         enemyStart = System.nanoTime();
-        topborder = new ArrayList<TopBorder>();
-        botborder = new ArrayList<BotBorder>();
+        topborder = new ArrayList<>();
+        botborder = new ArrayList<>();
         secondThread = new secondaryThread(getHolder(), this);
         secondThread.setRunning(true);
         secondThread.start();
     }
 
-
-    /*
-        Restart the main thread
+    /**
+     * Restarts the threads and draws the background and player into it.
+     * @param holder
      */
     @Override
     public void surfaceCreated(SurfaceHolder holder){
@@ -109,6 +109,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.newblack));
         newPlayer = new player(BitmapFactory.decodeResource(getResources(),R.drawable.newpirateship),173 ,81,1);
 
+        //Makes for a smoother game
         secondaryThreadCalls();
 
         thread = new MainThread(getHolder(), this);
@@ -117,24 +118,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
+    /**
+     * Never used function
+     * @param surfaceHolder
+     * @param format
+     * @param width
+     * @param height
+     */
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
 
     }
 
-    public void newGame() {
-        disappear = false;
-        topborder.clear();
-        botborder.clear();
-        effect.clear();
-        enemy.clear();
-        newEnemy.clear();
-        thirdEnemy.clear();
-        minBorderHeight = 5;
-        maxBorderHeight = 30;
-        newPlayer.resetAcceleration();
-        newPlayer.setY(height / 2);
-
+    /**
+     * Was previously in new game but caused cluttering so made into new function
+     */
+    public void calculateHighscores(){
         if((newPlayer.getScore() > (getRecord())) && (newPlayer.getScore() > getRecord2()) && (newPlayer.getScore() > getRecord3())){
             setRecord3(getRecord2());
             setRecord2(getRecord());
@@ -153,42 +152,90 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             newPlayer.resetScore();
 
         }
+    }
+
+    /**
+     * Function for new game
+     * Clears anything in arraylists and rests the borders.
+     */
+    public void newGame() {
+        disappear = false;
+        topborder.clear();
+        botborder.clear();
+        effect.clear();
+        enemy.clear();
+        newEnemy.clear();
+        thirdEnemy.clear();
+        minBorderHeight = 5;
+        maxBorderHeight = 30;
+        newPlayer.resetAcceleration();
+        newPlayer.setY(height / 2);
+
+        calculateHighscores();
         resetBorders();
 
 
         gamenew = true;
     }
 
+    /**
+     * Gets record for first highscore
+     * @return
+     */
     public int getRecord(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext()); return prefs.getInt("record", -1);
     }
 
+    /**
+     * Sets the record for first highscore
+     * @param value
+     */
     public void setRecord(int value){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         SharedPreferences.Editor editor = prefs.edit(); editor.putInt("record", value);
         editor.commit();
     }
 
+    /**
+     * Gets record for second highscore
+     * @return
+     */
     public int getRecord2(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext()); return prefs.getInt("record2", -1);
     }
 
+    /**
+     * Sets record for second highscore
+     * @param value
+     */
     public void setRecord2(int value){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         SharedPreferences.Editor editor = prefs.edit(); editor.putInt("record2", value);
         editor.commit();
     }
 
+    /**
+     * Gets record for third highscore
+     * @return
+     */
     public int getRecord3(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext()); return prefs.getInt("record3", -1);
     }
 
+    /**
+     * Sets record for third highscore
+     * @param value
+     */
     public void setRecord3(int value){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         SharedPreferences.Editor editor = prefs.edit(); editor.putInt("record3", value);
         editor.commit();
     }
 
+    /**
+     * On screen text for while the game is running. Will hold the level, current score and best score.
+     * @param canvas
+     */
     public void screenText(Canvas canvas){
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
@@ -198,6 +245,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawText("Best Score: "+ getRecord(), width-215, height-10, paint);
         canvas.drawText("Level: " + level, 10, height-550, paint);
 
+        //If the game is reset will run a seperate screen text
         if (!newPlayer.getRunning()&&gamenew&&reset){
             Paint newPaint = new Paint();
             newPaint.setTextSize(40);
@@ -212,6 +260,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
+    /**
+     * Function for resetting the borders to initial state in a new game instance
+     */
     public void resetBorders(){
         for (int i = 0; i * 25 < width + 40; i++) {
             if (i == 0) {
@@ -232,9 +283,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
-
-    /*
-    Keep Looping until it works
+    /**
+     * What happens when the surface is destroyed, will keep looping until destroyed.
+     * @param holder
      */
     @Override
     public void surfaceDestroyed(SurfaceHolder holder){
@@ -249,9 +300,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     thread.join();
                     secondThread.join();
                          retry = false;
-
-
-
                       //   thread = null; //garbage collector can pick up object, less memory usage
             } catch (Exception e){
                 e.printStackTrace();
@@ -259,8 +307,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    /*
-    Deals with all touch events
+    /**
+     * Function to deal with all of the touch events on screen
+     * including going up and going down.
+     * @param event
+     * @return
      */
     @Override
     public boolean onTouchEvent(MotionEvent event){
@@ -289,9 +340,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
 
-
-        //Checking if two objects are colliding
-    public boolean collision(GameObject initial, GameObject secondary){
+    /**
+     * Function to check if two objects are colliding by checking
+     * if rectangles are intersecting.
+     * @param initial
+     * @param secondary
+     * @return
+     */
+        public boolean collision(GameObject initial, GameObject secondary){
 
         if (Rect.intersects(initial.getHitbox(),secondary.getHitbox())){
             MediaPlayer myplayer = MediaPlayer.create(getContext(), R.raw.robloxdeath);
@@ -300,10 +356,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         return false;
 
-    }
+      }
 
-    /*
-    Updates the game frame by frame
+    /**
+     * Most important function in gameview
+     * Updates every gameobject, border, player.
+     * Adds every enemy in position/speed that i wish
+     * Deals with collision with borders and enemies
+     * Deals with death animation and resetting the game
      */
     public void update(){
         if(newPlayer.getRunning()) {
@@ -340,7 +400,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     newPlayer.setRunning(false);
                 }
             }
-
 
             this.updateTopBorder();
             //Create the borders
@@ -393,9 +452,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     secondaryTimer = System.nanoTime();
                 }
 
-
             long thirdElapsed = (System.nanoTime()- tertiaryTimer)/1000000;
-
 
             if (newPlayer.getScore() == 300){
                 level = 3;
@@ -405,7 +462,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
                     //CHANGE THIS YOU PLEB!!!!
                     if (thirdEnemy.size() == 0) {
-                        thirdEnemy.add(new thirdShip(BitmapFactory.decodeResource(getResources(), R.drawable.longship), width + 10, (int) (rng.nextDouble() * (height - (maxBorderHeight * 2)) + maxBorderHeight), 31, 49, 90, 1));
+                        thirdEnemy.add(new thirdShip(BitmapFactory.decodeResource(getResources(), R.drawable.longship), width + 10, (int) (rng.nextDouble() * (height - (maxBorderHeight * 2)) + maxBorderHeight), 31, 49, 45, 1));
                     } else {
                         thirdEnemy.add(new thirdShip(BitmapFactory.decodeResource(getResources(), R.drawable.longship), width + 10, (int) (rng.nextDouble() * (height - (maxBorderHeight * 2)) + maxBorderHeight), 31, 49, (thirdEnemy.size()+1), 1));
                     }
@@ -413,10 +470,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 //Reset Timer
                 tertiaryTimer = System.nanoTime();
             }
-
-
-
-
 
             //Go through every enemy and collision will check if two game objects are colliding.
             for (int i = 0; i < enemy.size(); i++){
@@ -426,7 +479,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     newPlayer.setRunning(false);
                     break;
                 }
-
                 if (enemy.get(i).getX()<-100){
                     enemy.remove(i);
                     break;
@@ -483,8 +535,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    /*
-    Takes in canvas and draws everything in game
+    /**
+     * Draw function takes in the canvas and draws everything to the screen
+     * @param canvas
      */
     @Override
     public void draw(Canvas canvas){
@@ -500,27 +553,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 newPlayer.draw(canvas);
             }
 
+            //Top border
             for (TopBorder tp : topborder){
                 tp.draw(canvas);
             }
 
+            //Draws bottom border
             for (BotBorder bp : botborder){
                 bp.draw(canvas);
-
             }
 
+            //Draws effects
             for (Effects sp : effect){
                 sp.draw(canvas);
             }
 
+            //Draws first enemy
             for (Enemy sp : enemy){
                 sp.draw(canvas);
             }
 
+            //Draws second enemy
             for (secondaryEnemy se : newEnemy){
                 se.draw(canvas);
             }
 
+            //Draws third enemy
             for (thirdShip ls : thirdEnemy){
                 ls.draw(canvas);
             }
@@ -530,12 +588,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 death.draw(canvas);
             }
 
-
+            //Draws screen text
             screenText(canvas);
             canvas.restoreToCount(savedState);
         }
     }
 
+    /**
+     * Function for updating the bot border to go up and down depending on player score
+     */
     public void updateBotBorder()
     {
         //update bottom border
@@ -568,6 +629,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    /**
+     * Function for updating the top border depending on enemy score
+     * Originally had random blocks being put in place depending on score but this caused lag
+     * So removed to make sure the game remains smooth.
+     */
     public void updateTopBorder(){
 
 
