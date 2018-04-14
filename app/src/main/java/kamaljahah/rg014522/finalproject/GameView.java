@@ -111,6 +111,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         //Makes for a smoother game
         secondaryThreadCalls();
+        try{
+            secondaryThread.sleep(5);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try {
+            thread.sleep(5);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         thread = new MainThread(getHolder(), this);
         thread.setRunning(true);
@@ -425,7 +436,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             if (enemyElapsed> (1500 - newPlayer.getScore()/4)){
 
                 if (enemy.size() == 0){
-                    enemy.add(new Enemy(BitmapFactory.decodeResource(getResources(),R.drawable.enemy1), width+10,  (int) (rng.nextDouble()*(height-(maxBorderHeight*2))+maxBorderHeight),25, 30, 30, 1));
+                    enemy.add(new Enemy(BitmapFactory.decodeResource(getResources(),R.drawable.enemy1), width+10,  height + 50,25, 30, 30, 1));
                 }
                 else {
                     enemy.add(new Enemy(BitmapFactory.decodeResource(getResources(),R.drawable.enemy1), width + 10, (int) (rng.nextDouble()*(height-(maxBorderHeight*2))+maxBorderHeight),25,30, newPlayer.getScore(), 1));
@@ -458,13 +469,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 level = 3;
             }
             if (level == 3) {
-                if (enemyElapsed> (1000 - newPlayer.getScore()/4))
+                if (enemyElapsed> (1500 - newPlayer.getScore()/4))
 
                     //CHANGE THIS YOU PLEB!!!!
                     if (thirdEnemy.size() == 0) {
                         thirdEnemy.add(new thirdShip(BitmapFactory.decodeResource(getResources(), R.drawable.longship), width + 10, (int) (rng.nextDouble() * (height - (maxBorderHeight * 2)) + maxBorderHeight), 31, 49, 45, 1));
                     } else {
-                        thirdEnemy.add(new thirdShip(BitmapFactory.decodeResource(getResources(), R.drawable.longship), width + 10, (int) (rng.nextDouble() * (height - (maxBorderHeight * 2)) + maxBorderHeight), 31, 49, (thirdEnemy.size()+1), 1));
+                        thirdEnemy.add(new thirdShip(BitmapFactory.decodeResource(getResources(), R.drawable.longship), width + 10, (int) (rng.nextDouble() * (height - (maxBorderHeight * 2)) + maxBorderHeight), 31, 49, newPlayer.getScore()/4, 1));
                     }
 
                 //Reset Timer

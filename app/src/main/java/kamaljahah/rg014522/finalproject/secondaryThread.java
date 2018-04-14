@@ -11,7 +11,7 @@ public class secondaryThread extends Thread {
     //Limit unnecessary calls to game loop, also for optimsation
 
     //FPS TO 10 BECAUSE 30 WAS MOVING TOO FAST!
-    public static final int MAX_FPS = 10;
+    public static final int MAX_FPS = 5;
 
     //Average FPS
     private double avgFPS;
