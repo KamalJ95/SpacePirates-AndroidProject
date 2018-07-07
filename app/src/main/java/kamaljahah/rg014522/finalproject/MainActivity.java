@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Button to traverse to the highscores
-         Button highscore = (Button) findViewById(R.id.highscore);
+        Button highscore = (Button) findViewById(R.id.highscore);
         highscore.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {

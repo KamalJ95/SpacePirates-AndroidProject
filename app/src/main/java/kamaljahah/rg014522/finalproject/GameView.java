@@ -109,8 +109,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.newblack));
         newPlayer = new player(BitmapFactory.decodeResource(getResources(),R.drawable.newpirateship),173 ,81,1);
 
-        //Makes for a smoother game
-        secondaryThreadCalls();
         try{
             secondaryThread.sleep(5);
         }catch (Exception e){
@@ -122,7 +120,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             e.printStackTrace();
         }
 
-
+        //Makes for a smoother game
+        secondaryThreadCalls();
         thread = new MainThread(getHolder(), this);
         thread.setRunning(true);
         thread.start();

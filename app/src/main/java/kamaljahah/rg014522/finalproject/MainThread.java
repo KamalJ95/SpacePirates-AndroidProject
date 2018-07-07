@@ -13,7 +13,7 @@ import android.view.SurfaceHolder;
 public class MainThread extends Thread {
 
     //Limit unnecessary calls to game loop, also for optimsation
-    public static final int MAX_FPS = 30;
+    private static final int MAX_FPS = 30;
 
     //Average FPS
     private double avgFPS;
